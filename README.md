@@ -31,13 +31,15 @@ You must complete all of the following:
 
 1.2.EXPLAIN ANALYZE який зроблений для початкового неоптимізованого запиту:![image](https://github.com/user-attachments/assets/35a15479-49ac-4022-a139-802429bbd7b3)
 
-loops = 16: видно що підзапит виконується 16 разів, це значно сповільнюю роботу, бо 16 разів треба пройтись по всій таблиці і відсортувати повторно всі данні які вже були відсортовані.
-На виконання запиту було використано 102891 секунд.
+loops = 16:підзапит виконується 16 разів, це значно сповільнюю роботу, бо 16 разів треба пройтись по всій таблиці і відсортувати повторно всі данні які вже були відсортовані.
+На виконання запиту було використано 102.891 секунд.
 
 2.1. Explain який зроблений для оптимізованого запиту(без індексації):![image](https://github.com/user-attachments/assets/c14896d5-c030-4c2b-84f2-c22f9a977f8e)
 Можна побачити що відбувається повне сканування таблиці лище один раз в порівнянні з попереднім запитом.В цьому запиті, як і в попередньому, жоден індекс не використовується, що сповільную запит. Where використовується лише 1 раз, через що швидкість виконання запиту покращилась.
 
 2.2.EXPLAIN ANALYZE який зроблений для оптимізованого запиту(без індексації):   ![image](https://github.com/user-attachments/assets/586868ff-db28-447a-b4c7-171643a5bdc3)
+loops: усі cte запити виконуються один раз
+Загальний час виконання = 1.2 с. в порівнянні з попереднім результатом в 102.891 с. видно що запит дійсно опимізований.
 
 
 4. **Code Refactoring**  
@@ -100,7 +102,9 @@ Please submit the following:
 - Choose a query that has enough complexity to allow for meaningful optimizations.
 - All explanations should be written clearly and concisely.
 
----1. What does an index do in a database? 
+---
+
+1. What does an index do in a database? 
 2. How can adding an index make a query faster? 
 3. What is a full table scan, and why is it usually slower than using an index? 
 4. How do you check if your query is using an index? 
