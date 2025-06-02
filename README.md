@@ -21,18 +21,32 @@ You must complete all of the following:
 
    На першому кроці я створила cte_filtered, яка допомогла виконати фільтрацію один раз, а потім використовувати її знову, а не робити кожен раз одну і ту саму фільтрацію, що значно покрашило час виконання запиту, також логіка фільтрації чітко виділена та ізольована. На другому кроці було стврено cte_aggregation, яка групує по cancer_stage і treatment_type відфільтровані дані з cte_filtered та застосовано агрегатні функції: COUNT, AVG.
 
-4. **Execution Plan Comparison**  
+3. **Execution Plan Comparison**  
    For each version of your query:
    - Provide an execution plan (e.g., using `EXPLAIN`, `EXPLAIN ANALYZE`).
    - Highlight the key performance metrics (e.g., cost, estimated rows, actual time).
 
-5. **Code Refactoring**  
+1.1. Explain який зроблений для початкового неоптимізованого запиту: ![image](https://github.com/user-attachments/assets/404790d6-8cfc-4560-aa97-73c0d5bacacd)
+Можна побачити що відбувається повне сканування таблиці, а це 881,279 рядків.Жоден індекс не використовується, навіть коли йдуть фільтрації по cancer_stage, treatment_type, age, diagnosis_date, що сповільную запит. Where використовується 6 разів, через що сповільнює роботу запиту.
+
+1.2.EXPLAIN ANALYZE який зроблений для початкового неоптимізованого запиту:![image](https://github.com/user-attachments/assets/35a15479-49ac-4022-a139-802429bbd7b3)
+
+loops = 16: видно що підзапит виконується 16 разів, це значно сповільнюю роботу, бо 16 разів треба пройтись по всій таблиці і відсортувати повторно всі данні які вже були відсортовані.
+На виконання запиту було використано 102891 секунд.
+
+2.1. Explain який зроблений для оптимізованого запиту(без індексації):![image](https://github.com/user-attachments/assets/c14896d5-c030-4c2b-84f2-c22f9a977f8e)
+Можна побачити що відбувається повне сканування таблиці лище один раз в порівнянні з попереднім запитом.В цьому запиті, як і в попередньому, жоден індекс не використовується, що сповільную запит. Where використовується лише 1 раз, через що швидкість виконання запиту покращилась.
+
+2.2.EXPLAIN ANALYZE який зроблений для оптимізованого запиту(без індексації):   ![image](https://github.com/user-attachments/assets/586868ff-db28-447a-b4c7-171643a5bdc3)
+
+
+4. **Code Refactoring**  
    Refactor the query for improved readability and structure. This may include:
    - Using CTEs
    - Breaking down subqueries
    - Rewriting inefficient joins or filters
 
-6. **Index Optimization**  
+5. **Index Optimization**  
    - Identify missing indexes that can improve performance.
    - Add appropriate indexes and explain how they help (e.g., reducing full table scans).
 
