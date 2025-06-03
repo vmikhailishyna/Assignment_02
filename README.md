@@ -41,7 +41,8 @@ loops = 16:підзапит виконується 16 разів, це знач�
 loops: усі cte запити виконуються один раз
 Загальний час виконання = 1.2 с. в порівнянні з попереднім результатом в 102.891 с. видно що запит дійсно опимізований.
 
-
+2.3.XPLAIN ANALYZE який зроблений для оптимізованого запиту з індексацією показує ![image](https://github.com/user-attachments/assets/64e209fa-4c9b-44e2-ac4c-da0626a3d4d0)
+що запит тепер проходиться по меньшо кількістю рядків(867 замість 1286), це доводить що індексація допомогла покращити продуктивність запиту.
 4. **Code Refactoring**  
    Refactor the query for improved readability and structure. This may include:
    - Using CTEs
@@ -51,6 +52,10 @@ loops: усі cte запити виконуються один раз
 5. **Index Optimization**  
    - Identify missing indexes that can improve performance.
    - Add appropriate indexes and explain how they help (e.g., reducing full table scans).
+  
+     CREATE INDEX index_survived_asthma_cirrhosis_date_age
+ON dataset_med (survived, asthma, cirrhosis, diagnosis_date, age);
+Було додано складений індекс index_survived_asthma_cirrhosis_date_age для пришвидшення роботи запиту
 
 ### 💡 Additional Points (+2)
 To earn **up to 2 bonus points**, demonstrate the use of **query hints** where appropriate:
